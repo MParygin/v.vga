@@ -20,7 +20,7 @@ module vga
 	output wire vsync,
 	output reg [WIDTH - 1:0] hdata,
 	output reg [WIDTH - 1:0] vdata,
-	output wire blank
+	output wire de
 );
 
 // init
@@ -51,8 +51,16 @@ begin
 end
 
 // hsync & vsync & blank
-assign hsync = ((hdata >= HFP) && (hdata < HSP)) ? HSPP : !HSPP;
-assign vsync = ((vdata >= VFP) && (vdata < VSP)) ? VSPP : !VSPP;
-assign blank = !((hdata < HSIZE) & (vdata < VSIZE));
+if (HSPP == 0)
+  assign hsync = ((hdata >= HFP) && (hdata < HSP)) ? 1'b0 : 1'b1;
+else
+  assign hsync = ((hdata >= HFP) && (hdata < HSP)) ? 1'b1 : 1'b0;
+
+if (VSPP == 0)
+  assign vsync = ((vdata >= VFP) && (vdata < VSP)) ? 1'b0 : 1'b1;
+else
+  assign vsync = ((vdata >= VFP) && (vdata < VSP)) ? 1'b1 : 1'b0;
+  
+assign de = (hdata < HSIZE) && (vdata < VSIZE);
 
 endmodule

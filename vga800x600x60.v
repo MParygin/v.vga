@@ -10,7 +10,7 @@ module vga800x600x60
 	output wire vsync,
 	output wire [11:0] hdata,
 	output wire [11:0] vdata,
-	output wire blank
+	output wire de
 );
 	 
 	// Instantiate
@@ -20,7 +20,7 @@ module vga800x600x60
 		.vdata(vdata),
 		.hsync(hsync),
 		.vsync(vsync),
-		.blank(blank)
+		.de(de)
 	);
 
 endmodule
